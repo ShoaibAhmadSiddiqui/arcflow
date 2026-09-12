@@ -29,7 +29,17 @@ body {
 
 /* Browser surfaces themed from the palette rather than left at defaults */
 ::selection { background: #D6FF3F; color: #0B0B0C; }
-:focus-visible { outline: 2px solid #D6FF3F; outline-offset: 3px; }
+/* Form controls are excluded: they signal focus by turning their own border
+   volt. Without this they match :focus-visible too and paint a second ring
+   3px outside that border, so a focused field shows two concentric outlines. */
+:focus-visible:not(input):not(textarea):not(select) {
+  outline: 2px solid #D6FF3F; outline-offset: 3px;
+}
+/* Kept for controls so focus is never invisible if a field ever drops its
+   own focus border. Sits on the border itself, not offset outside it. */
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 1px solid #D6FF3F; outline-offset: -1px;
+}
 ::-webkit-scrollbar { width: 11px; }
 ::-webkit-scrollbar-track { background: #0B0B0C; }
 ::-webkit-scrollbar-thumb { background: #33333A; border: 3px solid #0B0B0C; }
