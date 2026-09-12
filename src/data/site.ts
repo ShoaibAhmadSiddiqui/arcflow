@@ -10,7 +10,7 @@ export const site = {
   phone: '+31 20 712 3480',      // PLACEHOLDER
   phoneHref: '+31207123480',     // PLACEHOLDER
   address: 'Keizersgracht 241, Amsterdam', // PLACEHOLDER
-  tagline: 'Websites, custom software, and ERP systems for companies that outgrew the spreadsheet.',
+  tagline: 'Websites, custom software, and AI agents for companies that outgrew the spreadsheet.',
 };
 
 export const nav = [
@@ -25,9 +25,9 @@ export const projects = [
     slug: 'hartvig-logistics',
     client: 'HARTVIG LOGISTICS',
     sector: 'FREIGHT AND WAREHOUSING',
-    summary: 'Six warehouses onto one ERP, replacing forty years of paper records.',
+    summary: 'Six warehouses onto one platform, with agents triaging exceptions no human had time for.',
     detail:
-      'A freight operator running six sites on spreadsheets and phone calls. We replaced the lot with a single ERP, migrated four decades of records, and rolled it out site by site over nine months.',
+      'A freight operator running six sites on spreadsheets and phone calls. We replaced the lot with a single platform, migrated four decades of records, and added agents that flag delayed loads and draft the customer email before anyone asks.',
     image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=80',
     alt: 'Warehouse racking filled with pallets',
     metrics: [
@@ -111,16 +111,16 @@ export const services = [
     ],
   },
   {
-    slug: 'erp-systems',
+    slug: 'agentic-systems',
     index: '03',
-    titleLines: ['ERP', 'SYSTEMS'],
-    short: 'Inventory, finance, production, and HR in one system. Implementation, data migration, and training included.',
-    stack: ['ODOO', 'ERPNEXT', 'DYNAMICS'],
+    titleLines: ['AGENTIC', 'SYSTEMS'],
+    short: 'AI agents that do the work, not just answer questions. Wired into your real systems, with a human in the loop where it counts.',
+    stack: ['CLAUDE', 'LANGGRAPH', 'PYTHON'],
     points: [
-      'Implementation on Odoo, ERPNext, or Dynamics 365',
-      'Data migration from whatever you are running now, including paper',
-      'Parallel running until both systems reconcile',
-      'Training and documentation for the people who live in it daily',
+      'Agents that read, decide, and act inside the tools you already run',
+      'Retrieval over your own documents, contracts, and ticket history',
+      'Human approval on anything that spends money or touches a customer',
+      'Evaluation and logging, so you can see why an agent did what it did',
     ],
   },
 ];
@@ -143,6 +143,6 @@ export const stats = [
 export const marqueeItems = [
   'WEB DEVELOPMENT',
   'CUSTOM SOFTWARE',
-  'ERP SYSTEMS',
+  'AGENTIC SYSTEMS',
   'INTEGRATIONS',
 ];
