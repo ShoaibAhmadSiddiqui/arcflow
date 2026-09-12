@@ -1,0 +1,39 @@
+---
+import { site, nav } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto max-w-shell px-6 lg:px-10 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <span class="font-display font-black tracking-[-0.045em] text-[19px]">{site.name.toUpperCase()}</span>
+        <p class="tint mt-4 text-[14px] text-ash leading-relaxed max-w-[38ch]">{site.tagline}</p>
+      </div>
+
+      <div class="md:col-span-3">
+        <h2 class="font-mono text-[11.5px] tracking-[0.06em] text-ash/70">PAGES</h2>
+        <ul class="mt-4 space-y-2.5">
+          {nav.map((item) => (
+            <li><a href={item.href} class="textlink font-mono text-[12.5px] tracking-[0.04em] text-ash">{item.label}</a></li>
+          ))}
+          <li><a href="/contact" class="textlink font-mono text-[12.5px] tracking-[0.04em] text-ash">CONTACT</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <h2 class="font-mono text-[11.5px] tracking-[0.06em] text-ash/70">GET IN TOUCH</h2>
+        <ul class="mt-4 space-y-2.5">
+          <li><a href={`mailto:${site.email}`} class="textlink font-display text-[1.05rem] font-bold">{site.email}</a></li>
+          <li><a href={`tel:${site.phoneHref}`} class="textlink font-mono text-[13px] text-ash tnum">{site.phone}</a></li>
+          <li class="font-mono text-[12px] text-ash">{site.address.toUpperCase()}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <p class="font-mono text-[12px] text-ash tnum">&copy; {year} {site.legalName.toUpperCase()}</p>
+      <p class="font-mono text-[12px] text-ash">AMSTERDAM</p>
+    </div>
+  </div>
+</footer>

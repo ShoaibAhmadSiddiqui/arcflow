@@ -1,0 +1,29 @@
+---
+import { site } from '../data/site';
+import ContactForm from './ContactForm.astro';
+---
+
+<section class="py-24 lg:py-36 border-t border-line">
+  <div class="mx-auto max-w-shell px-6 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-14">
+      <div class="lg:col-span-6">
+        <h2 class="rv font-display font-black tracking-[-0.045em] text-[clamp(2.6rem,8vw,6rem)] leading-[0.88]">
+          <span class="spot">TELL US<br />WHAT IS</span><br /><span class="text-volt">BROKEN.</span>
+        </h2>
+        <p class="tint rv rv-d1 mt-8 text-[16px] text-ash leading-relaxed max-w-[40ch]">
+          Two sentences is enough to start. An engineer replies within two working days.
+        </p>
+        <div class="rv rv-d2 mt-8 space-y-2">
+          <a href={`mailto:${site.email}`} class="textlink block font-display text-[1.2rem] font-bold">{site.email}</a>
+          <a href={`tel:${site.phoneHref}`} class="textlink block font-mono text-[14px] text-ash tnum">{site.phone}</a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 lg:col-start-8">
+        <div class="rv rv-d1">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

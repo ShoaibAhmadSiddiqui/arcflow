@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import Marquee from '../components/Marquee.astro';
+import ServiceRows from '../components/ServiceRows.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { site, projects, processSteps, stats } from '../data/site';
+---
+
+<Base
+  title={`${site.name} - We build the systems you run on`}
+  description={site.tagline}
+>
+
+  <!-- HERO : kinetic type -->
+  <section class="relative min-h-[100dvh] flex flex-col justify-center pt-20 pb-14 overflow-hidden">
+    <div class="mx-auto max-w-shell w-full px-6 lg:px-10">
+      <h1 id="h1" class="font-display font-black tracking-[-0.045em] leading-[0.86] text-[clamp(2.9rem,min(13.2vw,20.5vh),10.75rem)]">
+        <span class="line"><span class="spot">WE BUILD</span></span>
+        <span class="line"><span class="outline-type">THE SYSTEMS</span></span>
+        <span class="line"><span class="spot">YOU RUN ON.</span></span>
+      </h1>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+        <p class="tint rv md:col-span-5 text-[16.5px] text-ash leading-relaxed max-w-[42ch]">
+          Websites, custom software, and ERP systems for companies that outgrew the spreadsheet.
+        </p>
+        <div class="rv rv-d1 md:col-span-4 md:col-start-9 flex md:justify-end">
+          <a href="/contact" class="group inline-flex items-center gap-3 bg-volt text-void font-display font-bold text-[15px] pl-7 pr-2 py-2.5 rounded-full stroke-btn hover:bg-white">
+            Start a project
+            <span class="w-9 h-9 rounded-full bg-void/12 grid place-items-center transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-[1px]" style="transition-timing-function:var(--ease-out)">
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Marquee />
+
+  <!-- SERVICES : numbered index rows -->
+  <section id="services" class="py-24 lg:py-36">
+    <div class="mx-auto max-w-shell px-6 lg:px-10">
+      <h2 class="spot rv font-display font-black tracking-[-0.045em] text-[clamp(2.2rem,6vw,4.5rem)] leading-[0.92] max-w-[14ch]">
+        THREE WAYS WE GET INVOLVED
+      </h2>
+      <div class="mt-16">
+        <ServiceRows />
+      </div>
+      <a href="/services" class="rv mt-10 inline-flex items-center gap-2 font-mono text-[12.5px] tracking-[0.05em] text-volt hover:text-chalk transition-colors duration-200">
+        HOW WE WORK ON EACH
+        <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- WORK : horizontal pan driven by scroll -->
+  <section id="work" class="relative">
+    <div id="panWrap" class="relative h-[300vh]">
+      <div class="sticky top-0 h-[100dvh] flex flex-col justify-center overflow-hidden">
+        <div class="mx-auto max-w-shell w-full px-6 lg:px-10 mb-8">
+          <h2 class="spot font-display font-black tracking-[-0.045em] text-[clamp(1.8rem,4.5vw,3.2rem)] leading-[0.95]">
+            RECENT BUILDS
+          </h2>
+        </div>
+        <div id="panTrack" class="pan-track gap-6 px-6 lg:px-10">
+          {projects.map((p) => (
+            <article class="w-[78vw] sm:w-[52vw] lg:w-[36vw] shrink-0">
+              <div class="aspect-[4/3] overflow-hidden bg-pitch">
+                <img src={p.image} alt={p.alt} width="1200" height="900" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+              </div>
+              <h3 class="spot mt-5 font-display text-[1.35rem] font-black tracking-[-0.03em]">{p.client}</h3>
+              <p class="tint mt-2 text-[14.5px] text-ash leading-relaxed max-w-[44ch]">{p.summary}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS : oversized figures -->
+  <section class="py-24 lg:py-32 border-y border-line">
+    <div class="mx-auto max-w-shell px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+      {stats.map((s, i) => (
+        <div class:list={['rv', i === 1 && 'rv-d1', i === 2 && 'rv-d2', i === 3 && 'rv-d3']}>
+          <div class="spot font-display font-black tracking-[-0.045em] text-[clamp(2.6rem,6vw,4.5rem)] leading-none tnum">{s.value}</div>
+          <p class="tint mt-3 font-mono text-[11.5px] text-ash tracking-[0.05em]">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROCESS : full-bleed image with overlaid stepped text -->
+  <section id="process" class="relative py-24 lg:py-36 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=2000&q=80"
+           alt="" width="2000" height="1333" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-[0.3]" />
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,#0B0B0C,rgba(11,11,12,.62),#0B0B0C)"></div>
+    </div>
+    <div class="relative mx-auto max-w-shell px-6 lg:px-10">
+      <h2 class="spot rv font-display font-black tracking-[-0.045em] text-[clamp(2.2rem,6vw,4.5rem)] leading-[0.92] max-w-[13ch]">
+        HOW THE WORK RUNS
+      </h2>
+      <div class="mt-14 grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10">
+        {processSteps.map((step, i) => (
+          <div class:list={['rv border-t border-line pt-6', i === 1 && 'rv-d1', i === 2 && 'rv-d2', i === 3 && 'rv-d3']}>
+            <h3 class="spot font-display text-[1.4rem] font-black tracking-[-0.03em]">{step.title}</h3>
+            <p class="tint mt-3 text-[15px] text-ash leading-relaxed max-w-[48ch]">{step.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+
+  <script>
+    // Horizontal pan: rAF-throttled, transform only, honors reduced motion.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const wrap = document.getElementById('panWrap');
+    const track = document.getElementById('panTrack');
+
+    if (wrap && track) {
+      let ticking = false;
+      let distance = 0;
+
+      const measure = () => {
+        distance = Math.max(0, track.scrollWidth - window.innerWidth + 40);
+      };
+
+      const update = () => {
+        ticking = false;
+        if (reduce.matches) {
+          track.style.transform = 'none';
+          return;
+        }
+        const rect = wrap.getBoundingClientRect();
+        const total = wrap.offsetHeight - window.innerHeight;
+        if (total <= 0) return;
+        const p = Math.min(1, Math.max(0, -rect.top / total));
+        track.style.transform = `translate3d(${-p * distance}px,0,0)`;
+      };
+
+      const onScroll = () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      };
+
+      measure();
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
+      reduce.addEventListener('change', () => { measure(); update(); });
+    }
+  </script>
+</Base>

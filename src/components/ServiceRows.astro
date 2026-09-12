@@ -1,0 +1,31 @@
+---
+import { services } from '../data/site';
+---
+
+<div class="border-t border-line">
+  {services.map((s, i) => (
+    <article class:list={['svc rv group relative border-b border-line', i === 1 && 'rv-d1', i === 2 && 'rv-d2']}>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-5 gap-x-8 items-start py-9 lg:py-12">
+        <div class="lg:col-span-1">
+          <span class="svc-num font-mono text-[12px] text-ash group-hover:text-volt transition-colors duration-300">{s.index}</span>
+        </div>
+        <div class="lg:col-span-4">
+          <h3 class="svc-title spot font-display text-[clamp(1.7rem,3.4vw,2.6rem)] font-black tracking-[-0.04em] leading-[0.95]">
+            {s.titleLines[0]}<br />{s.titleLines[1]}
+          </h3>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="tint text-[15px] text-ash leading-relaxed max-w-[44ch]">{s.short}</p>
+          <div class="mt-5 font-mono text-[11.5px] text-ash/80 flex flex-wrap gap-x-5 gap-y-2">
+            {s.stack.map((t) => <span>{t}</span>)}
+          </div>
+        </div>
+        <div class="lg:col-span-2 flex lg:justify-end">
+          <span class="svc-arrow w-11 h-11 rounded-full border border-line grid place-items-center group-hover:bg-volt group-hover:border-volt transition-colors duration-300">
+            <svg width="15" height="15" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="text-chalk group-hover:text-void transition-colors duration-300"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
+    </article>
+  ))}
+</div>

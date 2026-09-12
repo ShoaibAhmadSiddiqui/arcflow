@@ -1,0 +1,23 @@
+---
+import { marqueeItems } from '../data/site';
+// The row repeats its items twice so the loop is seamless.
+const sets = [false, true];
+---
+
+<section class="border-y border-line overflow-hidden py-5 bg-pitch" aria-label="What we work on">
+  <div class="marquee">
+    {sets.map((isDuplicate) => (
+      <div
+        class="flex items-center gap-10 pr-10 font-display font-black text-[clamp(1.4rem,3vw,2.4rem)] tracking-[-0.04em] whitespace-nowrap"
+        aria-hidden={isDuplicate ? 'true' : undefined}
+      >
+        {marqueeItems.map((item, i) => (
+          <>
+            <span class={i % 2 === 1 ? 'outline-type' : ''}>{item}</span>
+            <span class="text-volt">/</span>
+          </>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>

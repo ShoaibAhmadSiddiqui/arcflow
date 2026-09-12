@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* Tailwind v4: design tokens live here, not in a tailwind.config.js. */
+@theme {
+  --color-void:  #0B0B0C;
+  --color-pitch: #121214;
+  --color-line:  #2A2A2E;
+  --color-chalk: #F4F4F1;
+  --color-ash:   #8E8E97;
+  --color-volt:  #D6FF3F;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body:    "Archivo", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --shell: 1440px;
+}
+
+body {
+  background: #0B0B0C;
+  color: #F4F4F1;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Browser surfaces themed from the palette rather than left at defaults */
+::selection { background: #D6FF3F; color: #0B0B0C; }
+:focus-visible { outline: 2px solid #D6FF3F; outline-offset: 3px; }
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: #0B0B0C; }
+::-webkit-scrollbar-thumb { background: #33333A; border: 3px solid #0B0B0C; }
+::-webkit-scrollbar-thumb:hover { background: #D6FF3F; }
+
+.max-w-shell { max-width: var(--shell); }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* scroll reveal */
+.rv { opacity: 0; transform: translateY(26px); }
+.rv.in {
+  opacity: 1; transform: none;
+  transition: opacity .75s var(--ease-out), transform .75s var(--ease-out);
+}
+.rv-d1.in { transition-delay: .07s }
+.rv-d2.in { transition-delay: .14s }
+.rv-d3.in { transition-delay: .21s }
+.rv-d4.in { transition-delay: .28s }
+
+/* headline mask reveal */
+.line { display: block; overflow: hidden; }
+.line > span {
+  display: block; transform: translateY(105%);
+  transition: transform 1.05s var(--ease-out);
+}
+.ready .line > span { transform: none; }
+.ready .line:nth-child(2) > span { transition-delay: .08s }
+.ready .line:nth-child(3) > span { transition-delay: .16s }
+.ready .line:nth-child(4) > span { transition-delay: .24s }
+
+.outline-type { -webkit-text-stroke: 1.4px #F4F4F1; color: transparent; }
+
+/* the one marquee on the page */
+.marquee { display: flex; width: max-content; animation: slide 34s linear infinite; }
+@keyframes slide { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+/* scroll-driven horizontal pan */
+.pan-track { display: flex; will-change: transform; }
+
+.tile { transition: transform .6s var(--ease-out); }
+.tile:hover { transform: translateY(-6px); }
+
+/* Service index rows. A slanted volt streak crosses the row once on hover,
+   then it is gone: nothing is left behind. The row clips it, so the band
+   occupies exactly the row height and the skewed ends never overhang. */
+.svc { transition: transform .5s var(--ease-out); overflow: hidden; }
+.svc::before {
+  content: ''; position: absolute; top: 0; bottom: 0; z-index: -1;
+  left: 0; width: 34%;
+  background: linear-gradient(90deg, transparent, #D6FF3F 45%, #EAFF8C 60%, transparent);
+  opacity: 0;
+  transform: translateX(-130%) skewX(-18deg);
+}
+.svc:hover::before { animation: svc-streak 1.35s var(--ease-out) forwards; }
+@keyframes svc-streak {
+  0%   { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
+  10%  { opacity: .9; }
+  82%  { opacity: .9; }
+  100% { transform: translateX(330%) skewX(-18deg); opacity: 0; }
+}
+
+/* heading stays chalk on hover: volt at display size is harsh.
+   The index number and arrow carry the accent instead. */
+.svc-title { transition: color .25s var(--ease-out); }
+.svc:hover { transform: translateX(10px); }
+
+.stroke-btn { transition: background-color .25s ease, color .25s ease, transform .15s var(--ease-out); }
+.stroke-btn:active { transform: scale(0.98); }
+
+/* Nav and plain text links go volt on hover. Buttons are excluded: they
+   already signal themselves with a fill or a border. */
+@media (hover: hover) and (pointer: fine) {
+  header nav a,
+  .textlink { transition: color .25s var(--ease-out); }
+  header nav a:hover,
+  .textlink:hover { color: #D6FF3F; }
+}
+
+/* Trailing volt dot. The native cursor is deliberately kept underneath:
+   hiding it costs the user the affordance they already know. */
+/* The box is a fixed 34px and never resizes: the inner mark scales instead.
+   Animating width/height here would thrash layout on every pointer frame,
+   since JS writes translate3d to this element on a rAF loop. The outer
+   element owns translate, the inner owns scale, so the two never collide. */
+.cursor-dot {
+  position: fixed; top: 0; left: 0; z-index: 60;
+  width: 34px; height: 34px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity .25s var(--ease-out);
+  will-change: transform;
+}
+.cursor-dot::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 999px;
+  background: #D6FF3F;
+  /* 9px at rest, 34px when big: pure transform, composited */
+  transform: scale(0.265);
+  transition: transform .22s var(--ease-out), background-color .22s var(--ease-out),
+              box-shadow .22s var(--ease-out);
+}
+.cursor-dot.on { opacity: .9; }
+.cursor-dot.big::after {
+  transform: scale(1);
+  background: rgba(214, 255, 63, .22);
+  box-shadow: inset 0 0 0 1px rgba(214, 255, 63, .55);
+}
+
+/* Spotlight reveal on display type. The volt exists only inside a radius
+   around the pointer, so it lights the exact letters under the cursor.
+   The gradient ends in CHALK, not transparent: with background-clip:text the
+   glyphs are painted only by this gradient, so a transparent tail would make
+   the text disappear entirely. */
+@media (hover: hover) and (pointer: fine) {
+  .spot {
+    background-image: radial-gradient(
+      circle var(--spot-r, 48px) at var(--spot-x, -999px) var(--spot-y, -999px),
+      #D6FF3F 0%, #D6FF3F 38%, #C2E653 62%, #F4F4F1 85%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+  }
+
+  /* Body copy is split into one span per rendered line by JS, and each span
+     clips its own gradient. Without the split, background-clip:text paints
+     across the whole paragraph box, so a circle in the blank space beside a
+     short line still lights glyphs on the line below. Ends in currentColor so
+     body copy keeps its own grey outside the spotlight. */
+  .spot-line {
+    display: inline;
+    background-image: radial-gradient(
+      circle var(--spot-r, 42px) at var(--spot-x, -999px) var(--spot-y, -999px),
+      #D6FF3F 0%, #D6FF3F 38%, #C2E653 62%, currentColor 85%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .line > span { transform: none !important; transition: none !important; }
+  .marquee { animation: none !important; }
+  .pan-track { transform: none !important; }
+  .tile { transition: none !important; }
+  /* the streak is decorative travel: no sweep, no row shift */
+  .svc { transition: none !important; transform: none !important; }
+  .svc:hover { transform: none !important; }
+  .svc::before { transition: none !important; }
+  .svc:hover::before { animation: none !important; opacity: 0 !important; }
+  .cursor-dot { display: none !important; }
+  html { scroll-behavior: auto; }
+}

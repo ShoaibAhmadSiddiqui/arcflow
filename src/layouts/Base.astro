@@ -1,0 +1,212 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com');
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical.href} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical.href} />
+  <meta property="og:site_name" content={site.name} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body class="font-body antialiased">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-volt focus:text-void focus:px-4 focus:py-2 focus:text-[14px] focus:font-bold">
+    Skip to content
+  </a>
+
+  <Nav />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+
+  <script>
+    // Scroll reveal. IntersectionObserver, never a scroll listener.
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' }
+    );
+    document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+
+    // Headline mask reveal on load
+    const h1 = document.getElementById('h1');
+    if (h1) requestAnimationFrame(() => h1.classList.add('ready'));
+
+    // Trailing volt dot. Fine pointers only, never under reduced motion.
+    // The native cursor stays visible underneath: hiding it costs the user
+    // the affordance they already know.
+    (function () {
+      const fine = window.matchMedia('(hover:hover) and (pointer:fine)');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!fine.matches || reduce.matches) return;
+
+      const dot = document.createElement('div');
+      dot.className = 'cursor-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(dot);
+
+      let tx = -100, ty = -100, x = -100, y = -100, running = false;
+
+      function loop() {
+        x += (tx - x) * 0.18;
+        y += (ty - y) * 0.18;
+        dot.style.transform = `translate3d(${x - 4.5}px,${y - 4.5}px,0)`;
+        if (Math.abs(tx - x) > 0.1 || Math.abs(ty - y) > 0.1) {
+          requestAnimationFrame(loop);
+        } else {
+          running = false;
+        }
+      }
+
+      function kick() {
+        if (!running) { running = true; requestAnimationFrame(loop); }
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        tx = e.clientX; ty = e.clientY;
+        dot.classList.add('on');
+        kick();
+      }, { passive: true });
+
+      const hot = 'a, button, input, textarea, .svc';
+      document.addEventListener('pointerover', (e) => {
+        const t = e.target as Element | null;
+        if (t?.closest?.(hot)) dot.classList.add('big');
+      }, { passive: true });
+      document.addEventListener('pointerout', (e) => {
+        const t = e.target as Element | null;
+        if (t?.closest?.(hot)) dot.classList.remove('big');
+      }, { passive: true });
+
+      document.addEventListener('pointerleave', () => dot.classList.remove('on'));
+      window.addEventListener('blur', () => dot.classList.remove('on'));
+    })();
+
+    // Spotlight reveal. Writes element-local pointer coordinates into CSS
+    // custom properties; the gradient in CSS does the painting.
+    // Body copy is split into one span per RENDERED line first, because
+    // background-clip:text paints across the whole element box: without the
+    // split, a circle in the blank space beside a short line still lights
+    // glyphs on the line below.
+    (function () {
+      const fine = window.matchMedia('(hover:hover) and (pointer:fine)');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!fine.matches || reduce.matches) return;
+
+      let nodes: Element[] = [];
+      let mx = -9999, my = -9999, queued = false;
+
+      function splitLines(el: HTMLElement) {
+        let original = el.getAttribute('data-text');
+        if (original === null) {
+          original = el.textContent ?? '';
+          el.setAttribute('data-text', original);
+        }
+        el.textContent = original;
+
+        const node = el.firstChild;
+        if (!node || node.nodeType !== 3) return;
+
+        const range = document.createRange();
+        const lines: string[] = [];
+        let start = 0;
+        let lastTop: number | null = null;
+
+        for (let i = 0; i < original.length; i++) {
+          range.setStart(node, i);
+          range.setEnd(node, i + 1);
+          const rect = range.getClientRects()[0];
+          if (!rect) continue;
+          const top = Math.round(rect.top);
+          if (lastTop === null) {
+            lastTop = top;
+          } else if (top !== lastTop) {
+            lines.push(original.slice(start, i));
+            start = i;
+            lastTop = top;
+          }
+        }
+        lines.push(original.slice(start));
+
+        el.textContent = '';
+        for (const text of lines) {
+          const span = document.createElement('span');
+          span.className = 'spot-line';
+          span.textContent = text;
+          el.appendChild(span);
+        }
+      }
+
+      function refresh() {
+        document.querySelectorAll<HTMLElement>('.tint').forEach(splitLines);
+        nodes = Array.from(document.querySelectorAll('.spot, .spot-line'));
+      }
+
+      function paint() {
+        queued = false;
+        for (const el of nodes) {
+          const r = el.getBoundingClientRect();
+          // skip anything off screen: no work for glyphs nobody can see
+          if (r.bottom < -200 || r.top > window.innerHeight + 200) continue;
+          (el as HTMLElement).style.setProperty('--spot-x', `${mx - r.left}px`);
+          (el as HTMLElement).style.setProperty('--spot-y', `${my - r.top}px`);
+        }
+      }
+
+      refresh();
+
+      // Re-split when the line breaks themselves change. Both matter: a resize
+      // rewraps the text, and a late webfont changes glyph widths.
+      let resizeTimer: number;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(refresh, 160);
+      }, { passive: true });
+
+      if (document.fonts?.ready) document.fonts.ready.then(refresh);
+
+      window.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        mx = e.clientX; my = e.clientY;
+        if (!queued) { queued = true; requestAnimationFrame(paint); }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>

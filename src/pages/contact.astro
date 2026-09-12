@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+---
+
+<Base
+  title={`Contact - ${site.name}`}
+  description="Tell us what is broken. An engineer replies within two working days."
+>
+  <section class="pt-36 lg:pt-44 pb-24 lg:pb-32">
+    <div class="mx-auto max-w-shell px-6 lg:px-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+
+        <div class="lg:col-span-6">
+          <h1 id="h1" class="font-display font-black tracking-[-0.045em] leading-[0.88] text-[clamp(2.6rem,7.5vw,5.5rem)]">
+            <span class="line"><span class="spot">TELL US</span></span>
+            <span class="line"><span class="spot">WHAT IS</span></span>
+            <span class="line"><span class="text-volt">BROKEN.</span></span>
+          </h1>
+
+          <p class="tint rv mt-8 text-[16px] text-ash leading-relaxed max-w-[42ch]">
+            A couple of sentences is enough to start. You will hear back from an engineer, not a sales rep, within two working days.
+          </p>
+
+          <dl class="rv rv-d1 mt-12 space-y-7">
+            <div>
+              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">EMAIL</dt>
+              <dd class="mt-2"><a href={`mailto:${site.email}`} class="textlink font-display text-[1.2rem] font-bold">{site.email}</a></dd>
+            </div>
+            <div>
+              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">PHONE</dt>
+              <dd class="mt-2"><a href={`tel:${site.phoneHref}`} class="textlink font-mono text-[15px] text-chalk tnum">{site.phone}</a></dd>
+            </div>
+            <div>
+              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">STUDIO</dt>
+              <dd class="tint mt-2 font-mono text-[13px] text-ash">{site.address.toUpperCase()}</dd>
+            </div>
+          </dl>
+
+          <div class="rv rv-d2 mt-12 pt-8 border-t border-line">
+            <h2 class="spot font-display text-[1.1rem] font-black tracking-[-0.03em]">WHAT HAPPENS NEXT</h2>
+            <ol class="mt-5 space-y-3">
+              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">We read it and reply within two working days.</li>
+              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">A call, usually 30 minutes, to understand the problem.</li>
+              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">If it looks like a fit, we scope it properly and send a fixed number.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 lg:col-start-8">
+          <div class="rv rv-d1 border border-line p-7 lg:p-9 bg-pitch">
+            <ContactForm />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</Base>

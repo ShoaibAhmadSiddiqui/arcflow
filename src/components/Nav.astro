@@ -1,0 +1,33 @@
+---
+import { site, nav } from '../data/site';
+const { pathname } = Astro.url;
+const isActive = (href: string) => pathname === href || pathname === href + '/';
+---
+
+<header class="fixed top-0 inset-x-0 z-40 mix-blend-difference">
+  <div class="mx-auto max-w-shell px-6 lg:px-10 h-[72px] flex items-center justify-between gap-8">
+    <a href="/" class="font-display font-black tracking-[-0.045em] text-[19px] text-white" aria-label={`${site.name} home`}>
+      {site.name.toUpperCase()}
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8 font-mono text-[12.5px] tracking-[0.04em] text-white" aria-label="Main">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class="transition-colors duration-200"
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a href="/contact" class="transition-colors duration-200" aria-current={isActive('/contact') ? 'page' : undefined}>CONTACT</a>
+    </nav>
+
+    <a
+      href="/contact"
+      class="font-mono text-[12.5px] tracking-[0.04em] text-white border border-white/50 px-4 py-2 hover:bg-white hover:text-black transition-colors duration-200"
+    >
+      START A PROJECT
+    </a>
+  </div>
+</header>

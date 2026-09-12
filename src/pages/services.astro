@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { site, services, processSteps } from '../data/site';
+---
+
+<Base
+  title={`Services - ${site.name}`}
+  description="Website development, custom software, and ERP systems. What each involves and how the work runs."
+>
+  <PageHeader
+    title="THREE PRACTICES, ONE TEAM."
+    lede="Most clients start with one and grow into the others. Here is what each actually involves."
+  />
+
+  {services.map((s, i) => (
+    <section id={s.slug} class:list={['py-20 lg:py-28', i > 0 && 'border-t border-line']}>
+      <div class="mx-auto max-w-shell px-6 lg:px-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          <div class:list={['lg:col-span-5', i % 2 === 1 && 'lg:order-2 lg:col-start-8']}>
+            <h2 class="spot font-display font-black tracking-[-0.045em] text-[clamp(1.9rem,4.2vw,3.2rem)] leading-[0.94]">
+              {s.titleLines[0]}<br />{s.titleLines[1]}
+            </h2>
+            <p class="tint mt-6 text-[16px] text-ash leading-relaxed max-w-[44ch]">{s.short}</p>
+            <div class="mt-7 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[11.5px] text-ash/80">
+              {s.stack.map((t) => <span class="border border-line px-3 py-1.5">{t}</span>)}
+            </div>
+          </div>
+
+          <div class:list={['lg:col-span-6', i % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7']}>
+            <ul class="border-t border-line">
+              {s.points.map((point) => (
+                <li class="py-4 border-b border-line flex gap-4 items-start">
+                  <svg class="mt-1.5 shrink-0" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2.5 7.5 6 11l5.5-8" stroke="#D6FF3F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="tint text-[15px] text-ash leading-relaxed">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="py-20 lg:py-28 border-y border-line bg-pitch">
+    <div class="mx-auto max-w-shell px-6 lg:px-10">
+      <h2 class="spot font-display font-black tracking-[-0.045em] text-[clamp(1.8rem,4.2vw,3rem)] leading-[0.95] max-w-[20ch]">
+        THE SAME FOUR STEPS, EVERY TIME
+      </h2>
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+        {processSteps.map((step, i) => (
+          <div class:list={['rv', i === 1 && 'rv-d1', i === 2 && 'rv-d2', i === 3 && 'rv-d3']}>
+            <h3 class="spot font-display text-[1.2rem] font-black tracking-[-0.03em]">{step.title}</h3>
+            <p class="tint mt-3 text-[14px] text-ash leading-relaxed">{step.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</Base>

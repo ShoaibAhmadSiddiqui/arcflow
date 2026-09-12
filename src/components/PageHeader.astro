@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  lede?: string;
+}
+const { title, lede } = Astro.props;
+---
+
+<section class="pt-36 lg:pt-44 pb-14 lg:pb-20 border-b border-line">
+  <div class="mx-auto max-w-shell px-6 lg:px-10">
+    <h1 id="h1" class="font-display font-black tracking-[-0.045em] leading-[0.9] text-[clamp(2.4rem,7vw,5.5rem)] max-w-[16ch]">
+      <span class="line"><span class="spot">{title}</span></span>
+    </h1>
+    {lede && (
+      <p class="tint rv mt-7 text-[16.5px] text-ash leading-relaxed max-w-[50ch]">{lede}</p>
+    )}
+  </div>
+</section>

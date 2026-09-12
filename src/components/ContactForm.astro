@@ -1,0 +1,57 @@
+---
+// PLACEHOLDER: this form has no backend. It posts nowhere.
+// Wire it to Formspree, Netlify Forms, Web3Forms, or your own endpoint
+// before deploying. See PLACEHOLDERS.md.
+---
+
+<form class="space-y-5" method="POST" action="#" data-contact-form>
+  <div class="grid gap-2">
+    <label for="k-name" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">NAME</label>
+    <input
+      id="k-name" name="name" type="text" required autocomplete="name"
+      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200"
+      placeholder="Your name"
+    />
+  </div>
+  <div class="grid gap-2">
+    <label for="k-mail" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">WORK EMAIL</label>
+    <input
+      id="k-mail" name="email" type="email" required autocomplete="email"
+      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200"
+      placeholder="you@company.com"
+    />
+  </div>
+  <div class="grid gap-2">
+    <label for="k-msg" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">WHAT DO YOU NEED BUILT</label>
+    <textarea
+      id="k-msg" name="message" rows="4" required
+      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200 resize-y"
+      placeholder="A sentence or two is enough."></textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="group w-full inline-flex items-center justify-center gap-2 bg-volt text-void font-display font-bold text-[15px] py-4 stroke-btn hover:bg-white"
+  >
+    SEND IT OVER
+    <svg class="transition-transform duration-300 group-hover:translate-x-1" style="transition-timing-function:var(--ease-out)" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <p data-form-note class="font-mono text-[12px] text-ash" hidden></p>
+</form>
+
+<script>
+  // No backend wired yet: intercept and tell the user rather than failing silently.
+  document.querySelectorAll('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      const el = form as HTMLFormElement;
+      if (el.getAttribute('action') !== '#') return; // real endpoint set, let it through
+      event.preventDefault();
+      const note = el.querySelector('[data-form-note]') as HTMLElement | null;
+      if (note) {
+        note.textContent = 'This form is not connected to a backend yet. See PLACEHOLDERS.md.';
+        note.hidden = false;
+      }
+    });
+  });
+</script>
