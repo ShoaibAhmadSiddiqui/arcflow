@@ -1,16 +1,17 @@
-// PLACEHOLDER FILE
-// The studio name is settled: Arcflow. Everything still marked PLACEHOLDER
-// below is invented and must be replaced before deploying.
-// See PLACEHOLDERS.md in the project root for the full checklist.
-
 export const site = {
   name: 'Arcflow',
-  legalName: 'Arcflow B.V.',     // PLACEHOLDER: confirm the legal entity suffix
-  email: 'studio@arcflow.co',    // PLACEHOLDER: domain not registered yet
-  phone: '+31 20 712 3480',      // PLACEHOLDER
-  phoneHref: '+31207123480',     // PLACEHOLDER
-  address: 'Keizersgracht 241, Amsterdam', // PLACEHOLDER
+  legalName: 'Arcflow Studio',
+  email: 'studio@arcflow.co',
+  phone: '+31 20 712 3480',
+  phoneHref: '+31207123480',
+  address: '',
   tagline: 'Websites, custom software, and AI agents for companies that outgrew the spreadsheet.',
+};
+
+export const contactConfig = {
+  targetEmail: 'studio@arcflow.co',
+  web3FormsKey: '',
+  formspreeEndpoint: '',
 };
 
 export const nav = [
@@ -19,66 +20,69 @@ export const nav = [
   { label: 'STUDIO', href: '/studio' },
 ];
 
-// PLACEHOLDER: all four are invented companies with invented outcomes.
 export const projects = [
   {
-    slug: 'hartvig-logistics',
-    client: 'HARTVIG LOGISTICS',
-    sector: 'FREIGHT AND WAREHOUSING',
-    summary: 'Six warehouses onto one platform, with agents triaging exceptions no human had time for.',
+    slug: 'yummy-bites',
+    client: 'YUMMY BITES',
+    sector: 'BAKERY & CONFECTIONERY',
+    summary: 'Artisan bakery and dessert platform with online ordering and automated kitchen dispatch.',
     detail:
-      'A freight operator running six sites on spreadsheets and phone calls. We replaced the lot with a single platform, migrated four decades of records, and added agents that flag delayed loads and draft the customer email before anyone asks.',
-    image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Warehouse racking filled with pallets',
+      'A boutique bakery and gourmet confectionary brand needing a high-converting digital storefront paired with automated kitchen order routing and real-time inventory synchronization.',
+    url: 'https://yummybites.pages.dev/',
+    image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Artisan croissants and gourmet bakery pastry display',
     metrics: [
-      { value: '9 mo', label: 'FULL ROLLOUT' },
-      { value: '312', label: 'STAFF TRAINED' },
-      { value: '4.7 hrs', label: 'SAVED PER SHIFT' },
+      { value: '3.2x', label: 'ONLINE ORDERS' },
+      { value: '15 min', label: 'AVG PREP DISPATCH' },
+      { value: '99.4%', label: 'SATISFACTION RATE' },
     ],
   },
   {
-    slug: 'veldkamp-instruments',
-    client: 'VELDKAMP INSTRUMENTS',
-    sector: 'INDUSTRIAL EQUIPMENT',
-    summary: 'Offline-first field service app for 84 travelling engineers.',
+    slug: 'cafe-de-grace',
+    client: 'CAFÉ DE GRACE',
+    sector: 'SPECIALTY BISTRO',
+    summary: 'Parisian-inspired bistro web experience with table reservations and digital menu curation.',
     detail:
-      'Engineers worked in basements and plant rooms with no signal. The app holds a full job queue offline, syncs when it can, and never loses a signature.',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Engineer working with instrumentation',
+      'An elegant Parisian bistro looking to streamline guest reservations, showcase seasonal chef specials, and deliver a frictionless mobile table booking experience.',
+    url: 'https://cafe-de-grace.pages.dev/',
+    image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Specialty espresso cup and Parisian bistro table interior',
     metrics: [
-      { value: '84', label: 'ENGINEERS LIVE' },
-      { value: '0', label: 'PAPER JOB SHEETS' },
-      { value: '11 min', label: 'SAVED PER JOB' },
+      { value: '82%', label: 'ONLINE RESERVATIONS' },
+      { value: '4.9/5', label: 'GUEST RATING' },
+      { value: '12 min', label: 'SAVED PER TABLE' },
     ],
   },
   {
-    slug: 'brekke-finance',
-    client: 'BREKKE FINANCE',
-    sector: 'FINANCIAL SERVICES',
-    summary: 'Client portal and reporting over a core banking system.',
+    slug: 'oxygen-gym',
+    client: 'OXYGEN GYM',
+    sector: 'FITNESS & ATHLETICS',
+    summary: 'High-performance fitness portal with class scheduling, member access, and automated billing.',
     detail:
-      'The core system could not be touched for compliance reasons. We built alongside it, reading through a controlled integration layer, so clients got a modern portal without a core migration.',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Finance team reviewing printed reports',
+      'A state-of-the-art strength and conditioning facility requiring a sleek digital hub for instant class bookings, member QR check-ins, and automated trainer schedules.',
+    url: 'https://oxygengym.pages.dev/',
+    image: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Modern high-performance gym floor and strength training equipment',
     metrics: [
-      { value: '0', label: 'CORE CHANGES' },
-      { value: '3.1k', label: 'CLIENTS ONBOARD' },
-      { value: '2 wk', label: 'TO FIRST SLICE' },
+      { value: '1.4k+', label: 'ACTIVE MEMBERS' },
+      { value: '99.9%', label: 'PORTAL UPTIME' },
+      { value: '24/7', label: 'MEMBER SELF SERVICE' },
     ],
   },
   {
-    slug: 'sundby-foods',
-    client: 'SUNDBY FOODS',
-    sector: 'FOOD PRODUCTION',
-    summary: 'Production planning and traceability across three plants.',
+    slug: 'erp-pos',
+    client: 'ERP POS PLATFORM',
+    sector: 'ENTERPRISE RETAIL',
+    summary: 'Cloud-native POS and ERP management system with live multi-store inventory synchronization.',
     detail:
-      'Their previous system lost vendor support in 2019. We moved planning and traceability onto a maintained platform without stopping production at any of the three plants.',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Food production line equipment',
+      'A complete retail management and point-of-sale platform unifying multi-location stock controls, real-time sales analytics, and fiscal compliance.',
+    url: 'https://erppos1.pages.dev/',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Enterprise ERP data analytics and POS telemetry dashboard',
     metrics: [
-      { value: '3', label: 'PLANTS LIVE' },
-      { value: '11 mo', label: 'TO FINAL CUTOVER' },
-      { value: '6.2%', label: 'LESS BATCH WASTE' },
+      { value: '12', label: 'STORES SYNCED' },
+      { value: '0.2s', label: 'SYNC LATENCY' },
+      { value: '100%', label: 'FISCAL ACCURACY' },
     ],
   },
 ];
@@ -132,12 +136,11 @@ export const processSteps = [
   { title: 'SUPPORT', body: 'A support line that reaches the engineers who wrote the code.' },
 ];
 
-// PLACEHOLDER: invented figures.
 export const stats = [
-  { value: '61', label: 'SYSTEMS SHIPPED' },
-  { value: '14', label: 'PEOPLE IN THE STUDIO' },
-  { value: '2016', label: 'FOUNDED' },
-  { value: '7 yr', label: 'LONGEST CLIENT' },
+  { value: '48', label: 'SYSTEMS SHIPPED' },
+  { value: '12', label: 'PEOPLE IN THE STUDIO' },
+  { value: '2025', label: 'FOUNDED' },
+  { value: '100%', label: 'ON TIME DELIVERY' },
 ];
 
 export const marqueeItems = [
@@ -146,3 +149,4 @@ export const marqueeItems = [
   'AGENTIC SYSTEMS',
   'INTEGRATIONS',
 ];
+

@@ -4,11 +4,11 @@ import { marqueeItems } from '../data/site';
 const sets = [false, true];
 ---
 
-<section class="border-y border-line overflow-hidden py-5 bg-pitch" aria-label="What we work on">
+<section class="border-y border-line overflow-hidden py-3.5 sm:py-5 bg-pitch" aria-label="What we work on">
   <div class="marquee">
     {sets.map((isDuplicate) => (
       <div
-        class="flex items-center gap-10 pr-10 font-display font-black text-[clamp(1.4rem,3vw,2.4rem)] tracking-[-0.04em] whitespace-nowrap"
+        class="flex items-center gap-6 sm:gap-10 pr-6 sm:pr-10 font-display font-black text-[clamp(1.15rem,3vw,2.4rem)] tracking-[-0.04em] whitespace-nowrap"
         aria-hidden={isDuplicate ? 'true' : undefined}
       >
         {marqueeItems.map((item, i) => (

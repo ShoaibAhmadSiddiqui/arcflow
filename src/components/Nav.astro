@@ -4,30 +4,160 @@ const { pathname } = Astro.url;
 const isActive = (href: string) => pathname === href || pathname === href + '/';
 ---
 
-<header class="fixed top-0 inset-x-0 z-40 mix-blend-difference">
-  <div class="mx-auto max-w-shell px-6 lg:px-10 h-[72px] flex items-center justify-between gap-8">
-    <a href="/" class="font-display font-black tracking-[-0.045em] text-[19px] text-white" aria-label={`${site.name} home`}>
+<header class="fixed top-0 inset-x-0 z-40 bg-void/85 backdrop-blur-md border-b border-line/40">
+  <div class="mx-auto max-w-shell px-4 sm:px-6 lg:px-10 h-[64px] sm:h-[72px] flex items-center justify-between gap-4 sm:gap-8">
+    <a href="/" class="font-display font-black tracking-[-0.045em] text-[18px] sm:text-[19px] text-chalk" aria-label={`${site.name} home`}>
       {site.name.toUpperCase()}
     </a>
 
-    <nav class="hidden lg:flex items-center gap-8 font-mono text-[12.5px] tracking-[0.04em] text-white" aria-label="Main">
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 font-mono text-[12.5px] tracking-[0.04em] text-chalk" aria-label="Main">
       {nav.map((item) => (
         <a
           href={item.href}
-          class="transition-colors duration-200"
+          class:list={['transition-colors duration-200', isActive(item.href) ? 'text-volt font-bold' : 'hover:text-volt']}
           aria-current={isActive(item.href) ? 'page' : undefined}
         >
           {item.label}
         </a>
       ))}
-      <a href="/contact" class="transition-colors duration-200" aria-current={isActive('/contact') ? 'page' : undefined}>CONTACT</a>
+      <a
+        href="/contact"
+        class:list={['transition-colors duration-200', isActive('/contact') ? 'text-volt font-bold' : 'hover:text-volt']}
+        aria-current={isActive('/contact') ? 'page' : undefined}
+      >
+        CONTACT
+      </a>
     </nav>
 
-    <a
-      href="/contact"
-      class="font-mono text-[12.5px] tracking-[0.04em] text-white border border-white/50 px-4 py-2 hover:bg-white hover:text-black transition-colors duration-200"
-    >
-      START A PROJECT
-    </a>
+    <div class="flex items-center gap-3 sm:gap-4">
+      <a
+        href="/contact"
+        class="hidden sm:inline-flex font-mono text-[11.5px] sm:text-[12.5px] tracking-[0.04em] text-chalk border border-chalk/40 px-3.5 sm:px-4 py-1.5 sm:py-2 hover:bg-white hover:text-void transition-colors duration-200"
+      >
+        START A PROJECT
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        id="menuBtn"
+        type="button"
+        class="lg:hidden w-11 h-11 -mr-2 flex flex-col items-center justify-center gap-1.5 text-chalk hover:text-volt focus:outline-none"
+        aria-label="Open mobile navigation"
+        aria-expanded="false"
+        aria-controls="mobileDrawer"
+      >
+        <span class="block w-5 h-[2px] bg-current transition-transform duration-200"></span>
+        <span class="block w-5 h-[2px] bg-current transition-transform duration-200"></span>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- Mobile Navigation Drawer -->
+<div
+  id="mobileDrawer"
+  class="fixed inset-0 z-50 bg-void/98 backdrop-blur-xl flex flex-col justify-between px-6 sm:px-10 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] opacity-0 pointer-events-none transition-all duration-300 ease-out"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site Navigation"
+>
+  <!-- Drawer Top Bar -->
+  <div class="flex items-center justify-between h-[64px]">
+    <a href="/" class="font-display font-black tracking-[-0.045em] text-[19px] text-chalk" aria-label={`${site.name} home`}>
+      {site.name.toUpperCase()}
+    </a>
+    <button
+      id="closeMenuBtn"
+      type="button"
+      class="w-11 h-11 -mr-2 flex items-center justify-center text-chalk hover:text-volt transition-colors focus:outline-none"
+      aria-label="Close mobile navigation"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Drawer Nav Links -->
+  <nav class="flex flex-col gap-6 my-auto py-6" aria-label="Mobile Navigation">
+    {nav.map((item, idx) => (
+      <a
+        href={item.href}
+        class:list={[
+          'drawer-link group flex items-center justify-between font-display text-[clamp(2.1rem,8.5vw,3.2rem)] font-black tracking-[-0.035em] leading-none transition-colors duration-200',
+          isActive(item.href) ? 'text-volt' : 'text-chalk hover:text-volt'
+        ]}
+      >
+        <span>{item.label}</span>
+        <span class="font-mono text-xs tracking-wider text-ash group-hover:text-volt">0{idx + 1}</span>
+      </a>
+    ))}
+    <a
+      href="/contact"
+      class:list={[
+        'drawer-link group flex items-center justify-between font-display text-[clamp(2.1rem,8.5vw,3.2rem)] font-black tracking-[-0.035em] leading-none transition-colors duration-200',
+        isActive('/contact') ? 'text-volt' : 'text-chalk hover:text-volt'
+      ]}
+    >
+      <span>CONTACT</span>
+      <span class="font-mono text-xs tracking-wider text-ash group-hover:text-volt">04</span>
+    </a>
+  </nav>
+
+  <!-- Drawer Footer -->
+  <div class="border-t border-line pt-6 space-y-4">
+    <a
+      href="/contact"
+      class="w-full inline-flex items-center justify-center gap-2 bg-volt text-void font-display font-bold text-[15px] py-3.5 rounded-full stroke-btn hover:bg-white"
+    >
+      START A PROJECT
+      <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+    <div class="flex items-center justify-between text-ash font-mono text-[12px] pt-1">
+      <a href={`mailto:${site.email}`} class="hover:text-chalk transition-colors">{site.email}</a>
+      <span>AMSTERDAM</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const closeBtn = document.getElementById('closeMenuBtn');
+  const drawer = document.getElementById('mobileDrawer');
+  const links = drawer?.querySelectorAll('.drawer-link');
+
+  function openMenu() {
+    if (!drawer || !menuBtn) return;
+    drawer.classList.remove('opacity-0', 'pointer-events-none');
+    drawer.setAttribute('aria-hidden', 'false');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    if (!drawer || !menuBtn) return;
+    drawer.classList.add('opacity-0', 'pointer-events-none');
+    drawer.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  menuBtn?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+
+  links?.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer?.getAttribute('aria-hidden') === 'false') {
+      closeMenu();
+    }
+  });
+</script>

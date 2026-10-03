@@ -3,19 +3,19 @@ import { site } from '../data/site';
 import ContactForm from './ContactForm.astro';
 ---
 
-<section class="py-24 lg:py-36 border-t border-line">
-  <div class="mx-auto max-w-shell px-6 lg:px-10">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-14">
+<section class="py-8 sm:py-16 lg:py-28 border-t border-line">
+  <div class="mx-auto max-w-shell px-4 sm:px-6 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14">
       <div class="lg:col-span-6">
-        <h2 class="rv font-display font-black tracking-[-0.045em] text-[clamp(2.6rem,8vw,6rem)] leading-[0.88]">
+        <h2 class="rv font-display font-black tracking-[-0.045em] text-[clamp(2.1rem,8vw,6rem)] leading-[0.88]">
           <span class="spot">TELL US<br />WHAT IS</span><br /><span class="text-volt">BROKEN.</span>
         </h2>
-        <p class="tint rv rv-d1 mt-8 text-[16px] text-ash leading-relaxed max-w-[40ch]">
+        <p class="tint rv rv-d1 mt-3 sm:mt-6 text-[14.5px] sm:text-[16px] text-ash leading-relaxed max-w-[40ch]">
           Two sentences is enough to start. An engineer replies within two working days.
         </p>
-        <div class="rv rv-d2 mt-8 space-y-2">
-          <a href={`mailto:${site.email}`} class="textlink block font-display text-[1.2rem] font-bold">{site.email}</a>
-          <a href={`tel:${site.phoneHref}`} class="textlink block font-mono text-[14px] text-ash tnum">{site.phone}</a>
+        <div class="rv rv-d2 mt-3 sm:mt-6 space-y-1.5 sm:space-y-2">
+          <a href={`mailto:${site.email}`} class="textlink block font-display text-[1.05rem] sm:text-[1.2rem] font-bold break-all sm:break-normal">{site.email}</a>
+          <a href={`tel:${site.phoneHref}`} class="textlink block font-mono text-[13px] sm:text-[14px] text-ash tnum">{site.phone}</a>
         </div>
       </div>
 

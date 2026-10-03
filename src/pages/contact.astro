@@ -1,60 +1,602 @@
 ---
 import Base from '../layouts/Base.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { site } from '../data/site';
+import { site, contactConfig } from '../data/site';
+
+const faqs = [
+  {
+    q: 'How fast can we kick off a new engagement?',
+    a: 'We review incoming briefs within 24–48 hours. If there is a fit, we conduct a 30-minute technical discovery call within the week and deliver a detailed scope and fixed quote within 3–5 business days. Typical sprint kick-offs start within 10 to 14 days.',
+  },
+  {
+    q: 'Do you work on fixed-price sprints or hourly billing?',
+    a: 'We prefer fixed-price milestones with clearly defined deliverables and acceptance criteria. You know the exact cost and delivery timeline before writing a single line of code. We also offer dedicated monthly squads for ongoing roadmap execution.',
+  },
+  {
+    q: 'Can we sign a mutual NDA before sharing proprietary technical data?',
+    a: 'Absolutely. You can request an NDA using the checkbox in the form or send your standard company NDA directly to studio@arcflow.co. We countersign before any proprietary codebases, data structures, or credentials are shared.',
+  },
+  {
+    q: 'Who owns the intellectual property and source code?',
+    a: 'You own 100% of the code, designs, data schemas, infrastructure configurations, and IP from day one upon invoice payment. We write clean, fully documented, vendor-neutral code that your internal engineers can easily maintain.',
+  },
+  {
+    q: 'Do you provide SLA support and maintenance after launch?',
+    a: 'Yes. Every project includes a 30-day post-launch warranty with priority bug fixing. For long-term peace of mind, we provide ongoing SLA retainers covering proactive uptime monitoring, security updates, model evaluations, and feature iterations.',
+  },
+];
 ---
 
 <Base
   title={`Contact - ${site.name}`}
-  description="Tell us what is broken. An engineer replies within two working days."
+  description="Speak directly with senior systems architects. Tell us what is broken, and receive a fixed scope and quote within two working days."
 >
-  <section class="pt-36 lg:pt-44 pb-24 lg:pb-32">
-    <div class="mx-auto max-w-shell px-6 lg:px-10">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+  <!-- HERO & LIVE STATUS -->
+  <section class="pt-20 sm:pt-28 lg:pt-36 pb-8 sm:pb-12 border-b border-line">
+    <div class="mx-auto max-w-shell px-4 sm:px-6 lg:px-10">
+      
+      <!-- Live Status Pill Bar -->
+      <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 font-mono text-[11px] sm:text-[12px] tracking-wider text-ash mb-4 sm:mb-6">
+        <span class="inline-flex items-center gap-2 bg-pitch border border-line px-3 py-1 rounded-full text-chalk">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-volt opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-volt"></span>
+          </span>
+          STATUS: ACCEPTING CLIENTS · Q2 2026
+        </span>
+        <span class="hidden sm:inline-flex items-center gap-1.5 border border-line/60 px-3 py-1 bg-void/50 rounded-full">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-volt"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6l1.5 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <span id="amsClock">16:00:00 CET</span> · AMSTERDAM
+        </span>
+        <span class="inline-flex items-center gap-1.5 border border-line/60 px-3 py-1 bg-void/50 rounded-full text-ash/90">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-volt"><path d="M2.5 6.5 5 9l4.5-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          AVG. RESPONSE &lt; 24H
+        </span>
+      </div>
 
-        <div class="lg:col-span-6">
-          <h1 id="h1" class="font-display font-black tracking-[-0.045em] leading-[0.88] text-[clamp(2.6rem,7.5vw,5.5rem)]">
-            <span class="line"><span class="spot">TELL US</span></span>
-            <span class="line"><span class="spot">WHAT IS</span></span>
-            <span class="line"><span class="text-volt">BROKEN.</span></span>
-          </h1>
+      <h1 id="h1" class="font-display font-black tracking-[-0.045em] leading-[0.88] text-[clamp(2.2rem,7.5vw,5.5rem)]">
+        <span class="line"><span class="spot">TELL US</span></span>
+        <span class="line"><span class="spot">WHAT IS</span></span>
+        <span class="line"><span class="text-volt">BROKEN.</span></span>
+      </h1>
 
-          <p class="tint rv mt-8 text-[16px] text-ash leading-relaxed max-w-[42ch]">
-            A couple of sentences is enough to start. You will hear back from an engineer, not a sales rep, within two working days.
-          </p>
+      <p class="tint rv mt-3 sm:mt-6 text-[15px] sm:text-[17px] text-ash leading-relaxed max-w-[50ch]">
+        Direct engineering discussion with zero account layers. Tell us about your system, bottleneck, or new platform, and an engineer will reply within two business days.
+      </p>
+    </div>
+  </section>
 
-          <dl class="rv rv-d1 mt-12 space-y-7">
-            <div>
-              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">EMAIL</dt>
-              <dd class="mt-2"><a href={`mailto:${site.email}`} class="textlink font-display text-[1.2rem] font-bold">{site.email}</a></dd>
+  <!-- MAIN CONTACT GRID : Form & Direct Channels -->
+  <section class="py-8 sm:py-16 lg:py-24">
+    <div class="mx-auto max-w-shell px-4 sm:px-6 lg:px-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+
+        <!-- LEFT COLUMN : Direct Contacts, Process, & Trust Badges -->
+        <div class="lg:col-span-5 space-y-6 sm:space-y-10 order-2 lg:order-1">
+          
+          <!-- Direct Channels Box -->
+          <div class="rv border border-line bg-pitch p-5 sm:p-7">
+            <span class="font-mono text-[10.5px] sm:text-[11px] text-volt tracking-widest block mb-4">DIRECT INBOXES</span>
+            
+            <div class="space-y-4">
+              <!-- Email with 1-click copy -->
+              <div>
+                <span class="font-mono text-[10.5px] text-ash/70 block mb-1">GENERAL ENQUIRIES & BRIEFS</span>
+                <div class="flex items-center justify-between gap-2">
+                  <a href={`mailto:${site.email}`} class="textlink font-display text-[1.1rem] sm:text-[1.25rem] font-bold text-chalk hover:text-volt break-all">
+                    {site.email}
+                  </a>
+                  <button
+                    type="button"
+                    id="copyEmailBtn"
+                    class="shrink-0 font-mono text-[10.5px] tracking-wider border border-line px-2.5 py-1 text-ash hover:text-volt hover:border-volt transition-colors duration-200"
+                    aria-label="Copy studio email address"
+                  >
+                    COPY
+                  </button>
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="pt-3 border-t border-line/60">
+                <span class="font-mono text-[10.5px] text-ash/70 block mb-1">TELEPHONE / SIGNAL</span>
+                <a href={`tel:${site.phoneHref}`} class="textlink font-mono text-[14.5px] sm:text-[15.5px] text-chalk hover:text-volt tnum">
+                  {site.phone}
+                </a>
+              </div>
             </div>
-            <div>
-              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">PHONE</dt>
-              <dd class="mt-2"><a href={`tel:${site.phoneHref}`} class="textlink font-mono text-[15px] text-chalk tnum">{site.phone}</a></dd>
-            </div>
-            <div>
-              <dt class="font-mono text-[11px] tracking-[0.06em] text-ash/70">STUDIO</dt>
-              <dd class="tint mt-2 font-mono text-[13px] text-ash">{site.address.toUpperCase()}</dd>
-            </div>
-          </dl>
-
-          <div class="rv rv-d2 mt-12 pt-8 border-t border-line">
-            <h2 class="spot font-display text-[1.1rem] font-black tracking-[-0.03em]">WHAT HAPPENS NEXT</h2>
-            <ol class="mt-5 space-y-3">
-              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">We read it and reply within two working days.</li>
-              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">A call, usually 30 minutes, to understand the problem.</li>
-              <li class="tint text-[14.5px] text-ash leading-relaxed max-w-[46ch]">If it looks like a fit, we scope it properly and send a fixed number.</li>
-            </ol>
           </div>
+
+          <!-- Trust Guarantees -->
+          <div class="rv rv-d1 border border-line/70 bg-void p-5 sm:p-6 space-y-3.5">
+            <span class="font-mono text-[10.5px] text-volt tracking-widest block">HOW WE PROTECT YOUR WORK</span>
+            <div class="flex items-start gap-3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D6FF3F" stroke-width="2" class="shrink-0 mt-0.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div>
+                <h2 class="font-display font-bold text-[13.5px] sm:text-[14.5px] text-chalk">Strict Mutual NDA Available</h2>
+                <p class="text-[12.5px] sm:text-[13px] text-ash leading-relaxed mt-0.5">We execute a bilateral NDA before any architecture inspection or code review.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 pt-3 border-t border-line/50">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D6FF3F" stroke-width="2" class="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <div>
+                <h2 class="font-display font-bold text-[13.5px] sm:text-[14.5px] text-chalk">Fixed-Price Milestone Guarantee</h2>
+                <p class="text-[12.5px] sm:text-[13px] text-ash leading-relaxed mt-0.5">Every sprint is scoped with defined deliverables. Zero runaway hourly billing.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 pt-3 border-t border-line/50">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D6FF3F" stroke-width="2" class="shrink-0 mt-0.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <div>
+                <h2 class="font-display font-bold text-[13.5px] sm:text-[14.5px] text-chalk">Direct Senior Engineering</h2>
+                <p class="text-[12.5px] sm:text-[13px] text-ash leading-relaxed mt-0.5">No junior handoffs. The engineers who review your brief are the architects who build it.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Step Process Flow -->
+          <div class="rv rv-d2 border-t border-line pt-6">
+            <span class="font-mono text-[11px] text-ash/80 tracking-widest block mb-4">WHAT HAPPENS NEXT</span>
+            <div class="space-y-4">
+              <div class="flex gap-3.5 items-start">
+                <span class="font-mono text-[11.5px] text-volt font-bold bg-pitch border border-line w-6 h-6 rounded-full grid place-items-center shrink-0">1</span>
+                <div>
+                  <h3 class="font-display font-bold text-[14px] text-chalk">Engineering Triage (24-48 Hours)</h3>
+                  <p class="text-[12.5px] text-ash leading-relaxed mt-0.5">A systems architect reviews feasibility, dependencies, and timeline.</p>
+                </div>
+              </div>
+              <div class="flex gap-3.5 items-start">
+                <span class="font-mono text-[11.5px] text-volt font-bold bg-pitch border border-line w-6 h-6 rounded-full grid place-items-center shrink-0">2</span>
+                <div>
+                  <h3 class="font-display font-bold text-[14px] text-chalk">30-Minute Architecture Deep-Dive</h3>
+                  <p class="text-[12.5px] text-ash leading-relaxed mt-0.5">Focused technical call to map current bottlenecks and required data flows.</p>
+                </div>
+              </div>
+              <div class="flex gap-3.5 items-start">
+                <span class="font-mono text-[11.5px] text-volt font-bold bg-pitch border border-line w-6 h-6 rounded-full grid place-items-center shrink-0">3</span>
+                <div>
+                  <h3 class="font-display font-bold text-[14px] text-chalk">Fixed Scope & Sprint Roadmap</h3>
+                  <p class="text-[12.5px] text-ash leading-relaxed mt-0.5">Clear deliverables, architectural recommendations, and a fixed cost estimate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="lg:col-span-5 lg:col-start-8">
-          <div class="rv rv-d1 border border-line p-7 lg:p-9 bg-pitch">
-            <ContactForm />
+        <!-- RIGHT COLUMN : Professional Interactive Form -->
+        <div class="lg:col-span-7 order-1 lg:order-2">
+          <div class="rv border border-line bg-pitch p-5 sm:p-8 lg:p-10 shadow-2xl relative">
+            <div class="mb-6 sm:mb-8 pb-4 border-b border-line flex items-center justify-between">
+              <div>
+                <span class="font-mono text-[11px] text-volt tracking-widest block">STEP-BY-STEP PROJECT BRIEF</span>
+                <h2 class="font-display text-[1.4rem] sm:text-[1.75rem] font-black tracking-[-0.03em] text-chalk mt-1">START A CONVERSATION</h2>
+              </div>
+              <span class="hidden sm:block font-mono text-[11px] text-ash">NO COMMITMENT</span>
+            </div>
+
+            <form
+              class="space-y-5 sm:space-y-6"
+              method="POST"
+              action="#"
+              data-contact-form
+              id="mainContactForm"
+              data-target-email={contactConfig.targetEmail}
+              data-web3forms-key={contactConfig.web3FormsKey}
+              data-formspree-endpoint={contactConfig.formspreeEndpoint}
+            >
+              
+              <!-- Service Chips (Multiple Selectable) -->
+              <div class="space-y-2">
+                <label class="font-mono text-[11px] sm:text-[11.5px] tracking-[0.06em] text-ash block">
+                  WHAT PRACTICE ARE YOU INTERESTED IN?
+                </label>
+                <div class="flex flex-wrap gap-2" id="serviceChips">
+                  <button type="button" class="chip-btn border border-line px-3 py-1.5 font-mono text-[11.5px] text-chalk hover:border-volt focus:outline-none transition-colors" data-value="Websites">Websites & Platforms</button>
+                  <button type="button" class="chip-btn border border-line px-3 py-1.5 font-mono text-[11.5px] text-chalk hover:border-volt focus:outline-none transition-colors" data-value="Custom Software">Custom Software / Portals</button>
+                  <button type="button" class="chip-btn border border-line px-3 py-1.5 font-mono text-[11.5px] text-chalk hover:border-volt focus:outline-none transition-colors" data-value="AI Agents">Agentic AI & Automation</button>
+                  <button type="button" class="chip-btn border border-line px-3 py-1.5 font-mono text-[11.5px] text-chalk hover:border-volt focus:outline-none transition-colors" data-value="System Audit">Architecture Audit</button>
+                </div>
+                <input type="hidden" name="services" id="selectedServices" value="" />
+              </div>
+
+              <!-- Contact Inputs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid gap-1 sm:gap-1.5">
+                  <label for="c-name" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">YOUR NAME *</label>
+                  <input
+                    id="c-name" name="name" type="text" required autocomplete="name"
+                    class="w-full bg-void border border-line px-3.5 py-2.5 sm:py-3 text-[15px] sm:text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+                    placeholder="e.g. Alex van Dijk"
+                  />
+                </div>
+                <div class="grid gap-1 sm:gap-1.5">
+                  <label for="c-mail" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">WORK EMAIL *</label>
+                  <input
+                    id="c-mail" name="email" type="email" required autocomplete="email"
+                    class="w-full bg-void border border-line px-3.5 py-2.5 sm:py-3 text-[15px] sm:text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+                    placeholder="alex@company.com"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid gap-1 sm:gap-1.5">
+                  <label for="c-company" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">COMPANY / URL (OPTIONAL)</label>
+                  <input
+                    id="c-company" name="company" type="text" autocomplete="organization"
+                    class="w-full bg-void border border-line px-3.5 py-2.5 sm:py-3 text-[15px] sm:text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+                    placeholder="e.g. Acme Logistics"
+                  />
+                </div>
+                <div class="grid gap-1 sm:gap-1.5">
+                  <label for="c-phone" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">PHONE / WHATSAPP (OPTIONAL)</label>
+                  <input
+                    id="c-phone" name="phone" type="tel" autocomplete="tel"
+                    class="w-full bg-void border border-line px-3.5 py-2.5 sm:py-3 text-[15px] sm:text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+                    placeholder="+31 6 12345678"
+                  />
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="grid gap-1 sm:gap-1.5">
+                <label for="c-msg" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">TELL US WHAT YOU NEED BUILT *</label>
+                <textarea
+                  id="c-msg" name="message" rows="3" required
+                  class="w-full bg-void border border-line px-3.5 py-2.5 sm:py-3 text-[15px] sm:text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200 resize-y"
+                  placeholder="Describe your current bottleneck, existing technology stack, or project goals. Two or three sentences is enough."></textarea>
+              </div>
+
+              <!-- NDA Toggle Checkbox -->
+              <div class="flex items-center gap-3 pt-1">
+                <input
+                  type="checkbox"
+                  id="ndaToggle"
+                  name="request_nda"
+                  class="w-4 h-4 rounded border-line bg-void accent-volt cursor-pointer"
+                />
+                <label for="ndaToggle" class="font-mono text-[11.5px] sm:text-[12px] text-ash cursor-pointer select-none">
+                  Please send a mutual NDA before our technical discovery call
+                </label>
+              </div>
+
+              <!-- Submit Button -->
+              <div>
+                <button
+                  type="submit"
+                  class="group w-full inline-flex items-center justify-center gap-2.5 bg-volt text-void font-display font-bold text-[15px] sm:text-[15.5px] py-3.5 sm:py-4 stroke-btn hover:bg-white transition-colors duration-200 cursor-pointer"
+                >
+                  SUBMIT PROJECT BRIEF
+                  <svg class="transition-transform duration-300 group-hover:translate-x-1.5" style="transition-timing-function:var(--ease-out)" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11.5px] font-mono text-ash/80 pt-1">
+                <span>🔒 Zero spam guarantee. Pure technical review.</span>
+                <span>Direct engineer reply in &lt; 48 hours</span>
+              </div>
+
+              <div data-form-note class="p-3 bg-volt/10 border border-volt/30 text-volt text-[12.5px] font-mono rounded" hidden></div>
+            </form>
           </div>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- FAQS SECTION : Common Pre-Scoping Questions -->
+  <section class="py-8 sm:py-16 lg:py-24 border-t border-line bg-pitch">
+    <div class="mx-auto max-w-shell px-4 sm:px-6 lg:px-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-12">
+        <div class="lg:col-span-4">
+          <span class="font-mono text-[11px] text-volt tracking-widest block mb-2">COMMON QUESTIONS</span>
+          <h2 class="spot font-display font-black tracking-[-0.04em] text-[clamp(1.6rem,4vw,2.8rem)] leading-[0.95]">
+            BEFORE REACHING OUT
+          </h2>
+          <p class="tint mt-3 text-[14px] sm:text-[15px] text-ash leading-relaxed max-w-[34ch]">
+            Straightforward answers on our commercial terms, code ownership, and how engineering kicks off.
+          </p>
+        </div>
+
+        <div class="lg:col-span-8 space-y-3 sm:space-y-4">
+          {faqs.map((faq, idx) => (
+            <details class="faq-item group border border-line bg-void p-4 sm:p-5 transition-colors duration-200 open:border-line">
+              <summary class="font-display font-bold text-[14.5px] sm:text-[16px] text-chalk flex items-center justify-between gap-3 cursor-pointer list-none select-none group-hover:text-volt transition-colors">
+                <span>{faq.q}</span>
+                <span class="w-6 h-6 rounded-full border border-line grid place-items-center shrink-0 group-open:rotate-45 transition-transform duration-200">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 1v8M1 5h8"/></svg>
+                </span>
+              </summary>
+              <p class="tint mt-3 text-[13.5px] sm:text-[14.5px] text-ash leading-relaxed border-t border-line/60 pt-3">
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Live Amsterdam Clock (CET/CEST)
+    const clockEl = document.getElementById('amsClock');
+    if (clockEl) {
+      const updateClock = () => {
+        try {
+          const amsTime = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Europe/Amsterdam',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          }).format(new Date());
+          clockEl.textContent = `${amsTime} CET`;
+        } catch (e) {
+          // fallback
+        }
+      };
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    // 1-Click Copy Email to Clipboard
+    const copyBtn = document.getElementById('copyEmailBtn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText('studio@arcflow.co');
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'COPIED!';
+          copyBtn.classList.add('text-volt', 'border-volt');
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.classList.remove('text-volt', 'border-volt');
+          }, 2000);
+        } catch (err) {
+          window.location.href = 'mailto:studio@arcflow.co';
+        }
+      });
+    }
+
+    // Service Chips Toggle Logic & URL Param Preselection
+    const serviceChips = document.querySelectorAll('#serviceChips .chip-btn');
+    const selectedServicesInput = document.getElementById('selectedServices') as HTMLInputElement | null;
+    const activeServices = new Set<string>();
+
+    const updateSelectedServices = () => {
+      if (selectedServicesInput) {
+        selectedServicesInput.value = Array.from(activeServices).join(', ');
+      }
+    };
+
+    serviceChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const val = chip.getAttribute('data-value');
+        if (!val) return;
+        if (activeServices.has(val)) {
+          activeServices.delete(val);
+          chip.classList.remove('bg-volt', 'text-void', 'border-volt', 'font-bold');
+          chip.classList.add('text-chalk', 'border-line');
+        } else {
+          activeServices.add(val);
+          chip.classList.add('bg-volt', 'text-void', 'border-volt', 'font-bold');
+          chip.classList.remove('text-chalk', 'border-line');
+        }
+        updateSelectedServices();
+      });
+    });
+
+    // Auto-select practice from URL query param (e.g. /contact?service=custom-software)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramService = (urlParams.get('service') || '').toLowerCase();
+      if (paramService) {
+        serviceChips.forEach((chip) => {
+          const val = chip.getAttribute('data-value') || '';
+          const valLower = val.toLowerCase();
+          if (
+            (paramService.includes('web') && valLower.includes('web')) ||
+            (paramService.includes('software') && valLower.includes('software')) ||
+            ((paramService.includes('ai') || paramService.includes('agent')) && (valLower.includes('ai') || valLower.includes('agent'))) ||
+            (paramService.includes('audit') && valLower.includes('audit'))
+          ) {
+            activeServices.add(val);
+            chip.classList.add('bg-volt', 'text-void', 'border-volt', 'font-bold');
+            chip.classList.remove('text-chalk', 'border-line');
+          }
+        });
+        updateSelectedServices();
+      }
+    } catch (e) {}
+
+    // Form submission feedback & automated email delivery
+    const form = document.getElementById('mainContactForm') as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+        const note = form.querySelector('[data-form-note]') as HTMLElement | null;
+
+        const name = (form.querySelector<HTMLInputElement>('[name="name"]')?.value || '').trim();
+        const email = (form.querySelector<HTMLInputElement>('[name="email"]')?.value || '').trim();
+        const company = (form.querySelector<HTMLInputElement>('[name="company"]')?.value || '').trim();
+        const phone = (form.querySelector<HTMLInputElement>('[name="phone"]')?.value || '').trim();
+        const message = (form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value || '').trim();
+        const ndaToggle = form.querySelector<HTMLInputElement>('[name="request_nda"]');
+        const ndaRequested = ndaToggle?.checked ?? false;
+        const services = selectedServicesInput?.value || Array.from(activeServices).join(', ') || 'General Architecture Inquiry';
+
+        const targetEmail = form.getAttribute('data-target-email') || 'studio@arcflow.co';
+        const web3FormsKey = form.getAttribute('data-web3forms-key') || '';
+        const formspreeEndpoint = form.getAttribute('data-formspree-endpoint') || '';
+
+        const originalBtnHtml = submitBtn?.innerHTML || 'SUBMIT PROJECT BRIEF';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'TRANSMITTING BRIEF...';
+        }
+
+        const emailSubject = `⚡ [Arcflow Lead] ${name} - ${services}`;
+        const emailBody = `
+==============================================================
+⚡ ARCFLOW · NEW INCOMING CLIENT PROJECT BRIEF
+==============================================================
+
+1. CLIENT CONTACT INFORMATION:
+   • Full Name:        ${name}
+   • Work Email:       ${email}
+   • Phone / WhatsApp: ${phone || 'Not provided'}
+   • Company / URL:    ${company || 'Not provided'}
+
+2. SELECTED SERVICE / PRACTICE:
+   • Practice:         ${services}
+
+3. PROJECT REQUIREMENTS & SCOPE:
+${message}
+
+4. LEGAL & DISCOVERY:
+   • Mutual NDA:       ${ndaRequested ? 'YES (Send mutual NDA prior to discovery call)' : 'No NDA requested at this stage'}
+
+5. METADATA:
+   • Source Page:      ${window.location.href}
+   • Submitted At:     ${new Date().toLocaleString()}
+==============================================================
+`.trim();
+
+        let delivered = false;
+        let activationSent = false;
+
+        // 1. Web3Forms (if configured)
+        if (web3FormsKey && web3FormsKey.trim() !== '' && web3FormsKey !== 'YOUR_WEB3FORMS_ACCESS_KEY') {
+          try {
+            const res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                access_key: web3FormsKey,
+                subject: emailSubject,
+                from_name: `Arcflow Lead: ${name}`,
+                replyto: email,
+                name,
+                email,
+                phone: phone || 'Not provided',
+                company: company || 'Not provided',
+                practice: services,
+                message,
+                mutual_nda: ndaRequested ? 'YES' : 'NO',
+                full_summary: emailBody,
+              }),
+            });
+            const json = await res.json();
+            if (json.success) delivered = true;
+          } catch (err) {}
+        }
+
+        // 2. Formspree (if configured)
+        if (!delivered && formspreeEndpoint && formspreeEndpoint.trim() !== '') {
+          try {
+            const res = await fetch(formspreeEndpoint, {
+              method: 'POST',
+              headers: { 'Accept': 'application/json' },
+              body: new FormData(form),
+            });
+            if (res.ok) delivered = true;
+          } catch (err) {}
+        }
+
+        // 3. FormSubmit: Zero-config direct inbox delivery to targetEmail
+        if (!delivered && targetEmail) {
+          try {
+            const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                _subject: emailSubject,
+                _replyto: email,
+                _template: 'table',
+                'Practice / Service': services,
+                'Client Name': name,
+                'Work Email': email,
+                'Phone / WhatsApp': phone || 'Not provided',
+                'Company / URL': company || 'Not provided',
+                'Mutual NDA Requested': ndaRequested ? 'YES (Send NDA before discovery call)' : 'No',
+                'Project Scope & Bottlenecks': message,
+                'Submitted Date': new Date().toLocaleString(),
+                'Source Page': window.location.href,
+                'Full Formatted Brief': emailBody,
+              }),
+            });
+            const json = await res.json();
+            if (json.success === 'true' || json.success === true) {
+              delivered = true;
+            } else if (json.message && json.message.toLowerCase().includes('activation')) {
+              activationSent = true;
+            }
+          } catch (err) {}
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+
+        if (note) {
+          note.hidden = false;
+          const mailtoUrl = `mailto:${targetEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+          if (delivered) {
+            note.className = 'p-4 sm:p-5 bg-volt/10 border border-volt/50 text-chalk text-[13px] font-mono rounded leading-relaxed space-y-2';
+            note.innerHTML = `
+              <div class="flex items-center gap-2 font-bold text-[14px] text-volt">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                PROJECT BRIEF TRANSMITTED SUCCESSFULLY
+              </div>
+              <p class="text-ash text-[12.5px]">
+                Your requirements and contact details have been delivered directly to our studio inbox (<strong class="text-chalk">${targetEmail}</strong>).
+              </p>
+              <p class="text-ash text-[12px]">
+                An architect will review your project scope and reply directly to <strong class="text-chalk">${email}</strong> within 24–48 hours.
+              </p>
+            `;
+            form.reset();
+            activeServices.clear();
+            serviceChips.forEach((c) => {
+              c.classList.remove('bg-volt', 'text-void', 'border-volt', 'font-bold');
+              c.classList.add('text-chalk', 'border-line');
+            });
+          } else if (activationSent) {
+            note.className = 'p-4 sm:p-5 bg-pitch border border-volt/60 text-chalk text-[13px] font-mono rounded leading-relaxed space-y-3';
+            note.innerHTML = `
+              <div class="flex items-center gap-2 text-volt font-bold text-[14px]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                INBOX ACTIVATION REQUIRED FOR ${targetEmail}
+              </div>
+              <p class="text-ash text-[12.5px]">
+                FormSubmit has dispatched a 1-click confirmation email to <strong class="text-chalk">${targetEmail}</strong>. Simply click "Activate Form" in that email once, and all future briefs will flow into your inbox automatically.
+              </p>
+              <div class="pt-1">
+                <a href="${mailtoUrl}" class="inline-flex items-center gap-2 bg-volt text-void font-bold px-4 py-2 text-[12px] stroke-btn hover:bg-white transition-colors">
+                  Open Pre-Filled Brief in Email Client
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            `;
+          } else {
+            note.className = 'p-4 sm:p-5 bg-pitch border border-line text-chalk text-[12.5px] font-mono rounded leading-relaxed space-y-3';
+            note.innerHTML = `
+              <div class="text-volt font-bold text-[13.5px]">✓ PROJECT BRIEF COMPILED</div>
+              <p class="text-ash">Click below to dispatch this pre-formatted brief directly from your email application to <strong class="text-chalk">${targetEmail}</strong>:</p>
+              <div class="pt-1">
+                <a href="${mailtoUrl}" class="inline-flex items-center gap-2 bg-volt text-void font-bold px-4 py-2 text-[12px] stroke-btn hover:bg-white transition-colors">
+                  Send via Email App
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            `;
+          }
+          note.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+  </script>
 </Base>

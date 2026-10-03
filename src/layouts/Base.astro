@@ -17,7 +17,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical.href} />
@@ -49,7 +49,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com
   <Footer />
 
   <script>
-    // Scroll reveal. IntersectionObserver, never a scroll listener.
+    // Scroll reveal. IntersectionObserver, tuned for mobile and desktop.
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -59,7 +59,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com
           }
         });
       },
-      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -4% 0px' }
     );
     document.querySelectorAll('.rv').forEach((el) => io.observe(el));
 

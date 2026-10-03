@@ -1,56 +1,281 @@
 ---
-// PLACEHOLDER: this form has no backend. It posts nowhere.
-// Wire it to Formspree, Netlify Forms, Web3Forms, or your own endpoint
-// before deploying. See PLACEHOLDERS.md.
+import { contactConfig } from '../data/site';
 ---
 
-<form class="space-y-5" method="POST" action="#" data-contact-form>
-  <div class="grid gap-2">
-    <label for="k-name" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">NAME</label>
-    <input
-      id="k-name" name="name" type="text" required autocomplete="name"
-      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200"
-      placeholder="Your name"
-    />
+<form
+  class="space-y-3 sm:space-y-4"
+  method="POST"
+  data-contact-form
+  data-web3forms-key={contactConfig.web3FormsKey}
+  data-formspree-endpoint={contactConfig.formspreeEndpoint}
+  data-target-email={contactConfig.targetEmail}
+>
+  <!-- Service Selection Dropdown -->
+  <div class="grid gap-1">
+    <label for="k-service" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">WHAT PRACTICE DO YOU NEED? *</label>
+    <select
+      id="k-service"
+      name="service"
+      required
+      class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[14.5px] sm:text-[15px] text-chalk focus:border-volt focus:outline-none transition-colors duration-200 cursor-pointer"
+    >
+      <option value="" disabled selected>Select a practice...</option>
+      <option value="Websites & Platforms">Websites & Platforms</option>
+      <option value="Custom Software & Portals">Custom Software & Portals</option>
+      <option value="Agentic AI & Automation">Agentic AI & Automation</option>
+      <option value="Architecture Audit & Advisory">Architecture Audit & Advisory</option>
+    </select>
   </div>
-  <div class="grid gap-2">
-    <label for="k-mail" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">WORK EMAIL</label>
-    <input
-      id="k-mail" name="email" type="email" required autocomplete="email"
-      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200"
-      placeholder="you@company.com"
-    />
+
+  <!-- Name & Email (2 columns) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div class="grid gap-1">
+      <label for="k-name" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">NAME *</label>
+      <input
+        id="k-name" name="name" type="text" required autocomplete="name"
+        class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+        placeholder="Your name"
+      />
+    </div>
+    <div class="grid gap-1">
+      <label for="k-mail" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">WORK EMAIL *</label>
+      <input
+        id="k-mail" name="email" type="email" required autocomplete="email"
+        class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+        placeholder="you@company.com"
+      />
+    </div>
   </div>
-  <div class="grid gap-2">
-    <label for="k-msg" class="font-mono text-[11.5px] tracking-[0.06em] text-ash">WHAT DO YOU NEED BUILT</label>
+
+  <!-- Phone & Company (2 columns) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div class="grid gap-1">
+      <label for="k-phone" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">PHONE / WHATSAPP</label>
+      <input
+        id="k-phone" name="phone" type="tel" autocomplete="tel"
+        class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+        placeholder="+31 6..."
+      />
+    </div>
+    <div class="grid gap-1">
+      <label for="k-company" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">COMPANY / URL (OPTIONAL)</label>
+      <input
+        id="k-company" name="company" type="text" autocomplete="organization"
+        class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200"
+        placeholder="e.g. Acme Corp"
+      />
+    </div>
+  </div>
+
+  <!-- Message -->
+  <div class="grid gap-1">
+    <label for="k-msg" class="font-mono text-[10.5px] sm:text-[11.5px] tracking-[0.06em] text-ash">PROJECT DESCRIPTION & BOTTLENECK *</label>
     <textarea
-      id="k-msg" name="message" rows="4" required
-      class="w-full bg-pitch border border-line px-4 py-3.5 text-[15px] text-chalk placeholder:text-ash/60 focus:border-volt focus:outline-none transition-colors duration-200 resize-y"
-      placeholder="A sentence or two is enough."></textarea>
+      id="k-msg" name="message" rows="3" required
+      class="w-full bg-pitch border border-line px-3 sm:px-4 py-2 sm:py-2.5 text-[15px] text-chalk placeholder:text-ash/50 focus:border-volt focus:outline-none transition-colors duration-200 resize-y"
+      placeholder="What system needs to be built or replaced?"></textarea>
   </div>
 
   <button
     type="submit"
-    class="group w-full inline-flex items-center justify-center gap-2 bg-volt text-void font-display font-bold text-[15px] py-4 stroke-btn hover:bg-white"
+    class="submit-btn group w-full inline-flex items-center justify-center gap-2 bg-volt text-void font-display font-bold text-[14.5px] sm:text-[15px] py-3 sm:py-3.5 stroke-btn hover:bg-white cursor-pointer transition-colors duration-200"
   >
-    SEND IT OVER
-    <svg class="transition-transform duration-300 group-hover:translate-x-1" style="transition-timing-function:var(--ease-out)" width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="btn-text">SEND PROJECT BRIEF</span>
+    <svg class="btn-icon transition-transform duration-300 group-hover:translate-x-1" style="transition-timing-function:var(--ease-out)" width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
-  <p data-form-note class="font-mono text-[12px] text-ash" hidden></p>
+  <div data-form-feedback class="p-3.5 text-[12.5px] font-mono rounded border" hidden></div>
 </form>
 
 <script>
-  // No backend wired yet: intercept and tell the user rather than failing silently.
-  document.querySelectorAll('[data-contact-form]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      const el = form as HTMLFormElement;
-      if (el.getAttribute('action') !== '#') return; // real endpoint set, let it through
-      event.preventDefault();
-      const note = el.querySelector('[data-form-note]') as HTMLElement | null;
-      if (note) {
-        note.textContent = 'This form is not connected to a backend yet. See PLACEHOLDERS.md.';
-        note.hidden = false;
+  // Unified Form Handler with structured email payload & multi-layer delivery
+  document.querySelectorAll<HTMLFormElement>('form[data-contact-form]').forEach((form) => {
+    // Pre-select service from URL query param if present
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramService = (urlParams.get('service') || '').toLowerCase();
+      const serviceSelect = form.querySelector<HTMLSelectElement>('[name="service"]');
+      if (serviceSelect && paramService) {
+        for (const opt of Array.from(serviceSelect.options)) {
+          const optLower = opt.value.toLowerCase();
+          if (
+            (paramService.includes('web') && optLower.includes('web')) ||
+            (paramService.includes('software') && optLower.includes('software')) ||
+            ((paramService.includes('ai') || paramService.includes('agent')) && (optLower.includes('ai') || optLower.includes('agent'))) ||
+            (paramService.includes('audit') && optLower.includes('audit'))
+          ) {
+            serviceSelect.value = opt.value;
+            break;
+          }
+        }
+      }
+    } catch (e) {}
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = form.querySelector<HTMLButtonElement>('.submit-btn');
+      const btnText = form.querySelector<HTMLElement>('.btn-text');
+      const feedback = form.querySelector<HTMLElement>('[data-form-feedback]');
+
+      const name = (form.querySelector<HTMLInputElement>('[name="name"]')?.value || '').trim();
+      const email = (form.querySelector<HTMLInputElement>('[name="email"]')?.value || '').trim();
+      const phone = (form.querySelector<HTMLInputElement>('[name="phone"]')?.value || '').trim();
+      const company = (form.querySelector<HTMLInputElement>('[name="company"]')?.value || '').trim();
+      const service = (form.querySelector<HTMLSelectElement | HTMLInputElement>('[name="service"]')?.value || '').trim();
+      const message = (form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value || '').trim();
+
+      const targetEmail = form.getAttribute('data-target-email') || 'studio@arcflow.co';
+      const web3FormsKey = form.getAttribute('data-web3forms-key') || '';
+      const formspreeEndpoint = form.getAttribute('data-formspree-endpoint') || '';
+
+      if (btn && btnText) {
+        btn.disabled = true;
+        btnText.textContent = 'TRANSMITTING BRIEF...';
+      }
+
+      // Build beautifully formatted email summary
+      const emailSubject = `⚡ [Arcflow Lead] ${name} - ${service || 'New Project Brief'}`;
+      const emailBody = `
+==============================================================
+⚡ ARCFLOW · NEW INCOMING CLIENT PROJECT BRIEF
+==============================================================
+
+1. CLIENT CONTACT INFORMATION:
+   • Full Name:        ${name}
+   • Work Email:       ${email}
+   • Phone / WhatsApp: ${phone || 'Not provided'}
+   • Company / URL:    ${company || 'Not provided'}
+
+2. SELECTED SERVICE / PRACTICE:
+   • Practice:         ${service || 'General Architecture Inquiry'}
+
+3. PROJECT SCOPE & REQUIREMENTS:
+${message}
+
+4. METADATA:
+   • Source Page:      ${window.location.href}
+   • Submitted At:     ${new Date().toLocaleString()}
+==============================================================
+`.trim();
+
+      let delivered = false;
+      let activationSent = false;
+
+      // 1. Try Web3Forms if key configured
+      if (web3FormsKey && web3FormsKey.trim() !== '' && web3FormsKey !== 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              access_key: web3FormsKey,
+              subject: emailSubject,
+              from_name: `Arcflow Lead: ${name}`,
+              replyto: email,
+              name,
+              email,
+              phone: phone || 'Not provided',
+              company: company || 'Not provided',
+              practice: service || 'General Inquiry',
+              message,
+              summary: emailBody,
+            }),
+          });
+          const json = await res.json();
+          if (json.success) delivered = true;
+        } catch (err) {}
+      }
+
+      // 2. Try Formspree if endpoint configured
+      if (!delivered && formspreeEndpoint && formspreeEndpoint.trim() !== '') {
+        try {
+          const res = await fetch(formspreeEndpoint, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form),
+          });
+          if (res.ok) delivered = true;
+        } catch (err) {}
+      }
+
+      // 3. FormSubmit: Zero-config direct inbox delivery to targetEmail
+      if (!delivered && targetEmail) {
+        try {
+          const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              _subject: emailSubject,
+              _replyto: email,
+              _template: 'table',
+              'Practice / Service': service || 'General Inquiry',
+              'Client Name': name,
+              'Work Email': email,
+              'Phone / WhatsApp': phone || 'Not provided',
+              'Company / URL': company || 'Not provided',
+              'Project Scope & Bottlenecks': message,
+              'Submitted Date': new Date().toLocaleString(),
+              'Source Page': window.location.href,
+              'Full Formatted Brief': emailBody,
+            }),
+          });
+          const json = await res.json();
+          if (json.success === 'true' || json.success === true) {
+            delivered = true;
+          } else if (json.message && json.message.toLowerCase().includes('activation')) {
+            activationSent = true;
+          }
+        } catch (err) {}
+      }
+
+      if (btn && btnText) {
+        btn.disabled = false;
+        btnText.textContent = 'SEND PROJECT BRIEF';
+      }
+
+      if (feedback) {
+        feedback.hidden = false;
+        const mailtoUrl = `mailto:${targetEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+        if (delivered) {
+          feedback.className = 'p-3.5 text-[12.5px] font-mono rounded bg-volt/10 border border-volt/50 text-chalk leading-relaxed space-y-1.5';
+          feedback.innerHTML = `
+            <div class="flex items-center gap-1.5 font-bold text-[13.5px] text-volt">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              PROJECT BRIEF DELIVERED
+            </div>
+            <p class="text-ash text-[12px]">All details transmitted to our studio inbox (<strong class="text-chalk">${targetEmail}</strong>). An engineer will reply to <strong class="text-chalk">${email}</strong> within 24–48 hours.</p>
+          `;
+          form.reset();
+        } else if (activationSent) {
+          feedback.className = 'p-3.5 text-[12px] font-mono rounded bg-pitch border border-volt/60 text-chalk leading-relaxed space-y-2.5';
+          feedback.innerHTML = `
+            <div class="flex items-center gap-1.5 text-volt font-bold text-[13px]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              ACTIVATION SENT TO ${targetEmail}
+            </div>
+            <p class="text-ash">Check your inbox at <strong class="text-chalk">${targetEmail}</strong> to click the 1-time activation link.</p>
+            <div class="pt-0.5">
+              <a href="${mailtoUrl}" class="inline-flex items-center gap-1.5 bg-volt text-void font-bold px-3 py-1.5 text-[11.5px] stroke-btn hover:bg-white transition-colors">
+                Send via Email App Direct
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          `;
+        } else {
+          feedback.className = 'p-3.5 text-[12px] font-mono rounded bg-pitch border border-line text-chalk leading-relaxed space-y-2.5';
+          feedback.innerHTML = `
+            <div class="text-volt font-bold text-[13px]">✓ Project Brief Formatted!</div>
+            <p class="text-ash">Click below to send directly via your mail client to <strong class="text-chalk">${targetEmail}</strong> with all fields pre-filled:</p>
+            <div class="pt-0.5">
+              <a href="${mailtoUrl}" class="inline-flex items-center gap-1.5 bg-volt text-void font-bold px-3 py-1.5 text-[11.5px] stroke-btn hover:bg-white transition-colors">
+                Open in Email App & Send
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          `;
+        }
       }
     });
   });

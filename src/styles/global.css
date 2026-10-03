@@ -20,11 +20,16 @@
   --shell: 1440px;
 }
 
+html {
+  width: 100%;
+}
+
 body {
   background: #0B0B0C;
   color: #F4F4F1;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
 }
 
 /* Browser surfaces themed from the palette rather than left at defaults */
@@ -47,6 +52,9 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 
 .max-w-shell { max-width: var(--shell); }
 .tnum { font-variant-numeric: tabular-nums; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* scroll reveal */
 .rv { opacity: 0; transform: translateY(26px); }
@@ -197,5 +205,6 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   .svc::before { transition: none !important; }
   .svc:hover::before { animation: none !important; opacity: 0 !important; }
   .cursor-dot { display: none !important; }
+  .hero-bg-video { display: none !important; }
   html { scroll-behavior: auto; }
 }
